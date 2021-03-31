@@ -1,0 +1,19 @@
+#!/usr/bin/python
+
+# Imports
+
+from scapy.all import *
+import sys
+
+# verbose mode
+#conf.verb=0
+
+for sufix in range(1, 5):
+	ipRange  = "%s.%d" %(sys.argv[1], sufix)
+	print(ipRange)
+	ip = IP(dst=ipRange)
+	package = ip/ICMP()
+
+	responses, noresponse = sr(package, timeout=1)
+	for response in responses:		tcpResponse = response[1][TCP].src
+			print("[+] Host descoberto em %s", %tcpResponse)
